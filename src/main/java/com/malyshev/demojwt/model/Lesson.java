@@ -12,37 +12,28 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @Entity
-@Getter
-@Setter
 @Data
-@Table(name = "users")
-public class User implements Serializable {
+@Table(name = "lessons")
+public class Lesson implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "numLesson")
+    private Long numLesson;
+
+    @Column(name = "title")
+    private String title;
+
+    @Column(name = "description")
+    private String description;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private Status status;
-    @Column(name = "username")
-    private String username;
-    @Column(name = "first_name")
-    private String firstName;
-    @Column(name = "last_name")
-    private String lastName;
-    @Column(name = "email")
-    private String email;
-
-    @JsonIgnore
-    @Column(name = "password")
-    private String password;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "current_lesson")
-    private Lesson currentLesson;
 
     @CreatedDate
     @CreationTimestamp
@@ -55,11 +46,12 @@ public class User implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Column(name = "updated")
     private Date updated;
+    public Lesson() {
+    }
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_roles",
-    joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
-    inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
-    private List<Role> roles;
-
+    public Lesson(Long numLesson, String title, String description) {
+        this.numLesson = numLesson;
+        this.title = title;
+        this.description = description;
+    }
 }
